@@ -38,8 +38,7 @@ class FeatureFlipControllerTest
         )
       ))
 
-      val controller = new FeatureFlipController(stubControllerComponents(),
-        featureFlipRepositoryMock)
+      val controller = new FeatureFlipController(stubControllerComponents(), featureFlipRepositoryMock)
       val result = controller.list().apply(FakeRequest())
 
       val json = Json.arr(
@@ -57,14 +56,42 @@ class FeatureFlipControllerTest
         Future.successful(FeatureFlip(1, "name", activated = true))
       )
 
-      val controller = new FeatureFlipController(stubControllerComponents(),
-        featureFlipRepositoryMock)
+      val controller = new FeatureFlipController(stubControllerComponents(), featureFlipRepositoryMock)
       val result = controller.create().apply(FakeRequest().withBody(featureFlipRequest))
 
       val json = Json.obj("id" -> 1, "name" -> "name", "activated" -> true)
 
       status(result) shouldBe CREATED
       contentAsJson(result) shouldBe json
+    }
+
+    "update a feature flip if exist" in {
+      val featureFlipRepositoryMock = mock[FeatureFlipRepository]
+      val featureFlipRequest = FeatureFlipRequest("name", activated = true)
+      when(featureFlipRepositoryMock.update(1, featureFlipRequest)).thenReturn(
+        Future.successful(Some(FeatureFlip(1, "name", activated = true)))
+      )
+
+      val controller = new FeatureFlipController(stubControllerComponents(), featureFlipRepositoryMock)
+      val result = controller.update(1).apply(FakeRequest().withBody(featureFlipRequest))
+
+      val json = Json.obj("id" -> 1, "name" -> "name", "activated" -> true)
+
+      status(result) shouldBe OK
+      contentAsJson(result) shouldBe json
+    }
+
+    "return not found if flip is not found and cannot be updated" in {
+      val featureFlipRepositoryMock = mock[FeatureFlipRepository]
+      val featureFlipRequest = FeatureFlipRequest("name", activated = true)
+      when(featureFlipRepositoryMock.update(1, featureFlipRequest)).thenReturn(
+        Future.successful(None)
+      )
+
+      val controller = new FeatureFlipController(stubControllerComponents(), featureFlipRepositoryMock)
+      val result = controller.update(1).apply(FakeRequest().withBody(featureFlipRequest))
+
+      status(result) shouldBe NOT_FOUND
     }
   }
 }

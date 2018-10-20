@@ -34,11 +34,30 @@ class FeatureFlipRepositoryTest
   "FeatureFlipRepository.create" should {
     "insert a new feature flip" in { db =>
       val featureFlipRepository = new FeatureFlipRepository(db)
-      val result = featureFlipRepository.create(
-        FeatureFlipRequest("test", activated = false))
+      val result = featureFlipRepository.create(FeatureFlipRequest("test", activated = false))
 
       whenReady(result) { res =>
         res shouldBe FeatureFlip(6, "test", activated = false)
+      }
+    }
+  }
+
+  "FeatureFlipRepository.update" should {
+    "update a new feature flip" in { db =>
+      val featureFlipRepository = new FeatureFlipRepository(db)
+      val result = featureFlipRepository.update(1, FeatureFlipRequest("test", activated = false))
+
+      whenReady(result) { res =>
+        res shouldBe Some(FeatureFlip(1, "test", activated = false))
+      }
+    }
+
+    "not update a flip if id doesn't exist " in { db =>
+      val featureFlipRepository = new FeatureFlipRepository(db)
+      val result = featureFlipRepository.update(8, FeatureFlipRequest("test", activated = false))
+
+      whenReady(result) { res =>
+        res shouldBe None
       }
     }
   }

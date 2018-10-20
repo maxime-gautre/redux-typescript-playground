@@ -24,4 +24,11 @@ class FeatureFlipController(
       Created(Json.toJson(featureFlip))
     }
   }
+
+  def update(flipId: Int) = Action.async(parse.json[FeatureFlipRequest]) { request =>
+    featureFlipRepository.update(flipId, request.body).map {
+      case Some(featureFlip) => Ok(Json.toJson(featureFlip))
+      case None => NotFound(Json.obj("id" -> flipId, "message" -> s"Flip $flipId not found"))
+    }
+  }
 }
