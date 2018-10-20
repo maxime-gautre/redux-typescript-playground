@@ -66,7 +66,7 @@ object Settings {
     ),
     // name dist with timestamp
     packageName in Universal := s"${name.value}-${version.value}-$timestamp",
-  ) ++ scalaFmtSettings
+  ) /*++ scalaFmtSettings*/
 
   lazy val commonPlay = common ++ Seq(
     buildInfoPackage := "sbt",

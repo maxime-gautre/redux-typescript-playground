@@ -7,7 +7,7 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{Seconds, Span}
 
 import featureflip.helper.DatabaseIntegration
-import featureflip.models.FeatureFlip
+import featureflip.models.{FeatureFlip, FeatureFlipRequest}
 
 class FeatureFlipRepositoryTest
     extends DatabaseIntegration
@@ -20,7 +20,7 @@ class FeatureFlipRepositoryTest
 
   override def beforeEachStmt: String = """"""
 
-  "FeatureFlipRepository" should {
+  "FeatureFlipRepository.list" should {
     "list feature flips" in { db =>
       val featureFlipRepository = new FeatureFlipRepository(db)
       val result = featureFlipRepository.list
@@ -30,6 +30,19 @@ class FeatureFlipRepositoryTest
       }
     }
   }
+
+  "FeatureFlipRepository.create" should {
+    "insert a new feature flip" in { db =>
+      val featureFlipRepository = new FeatureFlipRepository(db)
+      val result = featureFlipRepository.create(
+        FeatureFlipRequest("test", activated = false))
+
+      whenReady(result) { res =>
+        res shouldBe FeatureFlip(6, "test", activated = false)
+      }
+    }
+  }
+
 }
 
 sealed trait FeatureFlipFixtures {
