@@ -25,7 +25,7 @@ const reducer: Reducer<DashBoardState> = (state = initialState, action: FeatureF
         case getType(featureFlipActions.incrementCounter): {
             return { ...state, counter: state.counter + 1 };
         }
-        case 'FLIPS_FETCHED': {
+        case getType(featureFlipActions.fetchFlipSuccess): {
             return { ...state, flips: action.payload };
         }
         default: {

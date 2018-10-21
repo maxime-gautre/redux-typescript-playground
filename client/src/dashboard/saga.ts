@@ -2,6 +2,8 @@ import { all, call, put, takeLatest } from 'redux-saga/effects';
 import { fetchFlipFailure, fetchFlipSuccess } from './action';
 import axios from 'axios';
 import { SagaIterator } from 'redux-saga';
+import * as featureFlipAction from './action';
+import { getType } from 'typesafe-actions';
 
 axios.defaults.baseURL = 'http://localhost:9000';
 
@@ -24,7 +26,7 @@ function* fetchData() {
 
 function* dashboardSaga(): SagaIterator {
     yield all([
-        takeLatest('INIT_FETCH_FLIPS', fetchData),
+        takeLatest(getType(featureFlipAction.initFetchFlip), fetchData),
     ]);
 }
 
