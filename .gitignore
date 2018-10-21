@@ -3,3 +3,9 @@ webapp/project/target
 webapp/project/project
 webapp/target
 webapp/conf/local.conf
+
+webapp/public/main.js
+webapp/public/style.css
+webapp/public/**/*.map
+
+client/node_modules

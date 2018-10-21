@@ -2,6 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# Application's entry point
+GET         /                    core.controllers.HomeController.index
 GET         /@/about             core.controllers.HomeController.about
 
 # Feature flips
@@ -12,6 +14,3 @@ PUT         /api/flip/:id        featureflip.controllers.FeatureFlipController.u
 # Map static resources from the /public folder to the /assets URL path
 GET         /favicon.ico         core.controllers.XAssets.favicon
 GET         /assets/*file        core.controllers.XAssets.versioned(path="/public", file: controllers.Assets.Asset)
-
-# Application's entry point
-GET         /$any<.*>            core.controllers.HomeController.index(any: String)
