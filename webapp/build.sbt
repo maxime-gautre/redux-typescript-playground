@@ -1,6 +1,6 @@
 scalaVersion in ThisBuild := "2.12.7"
 
-name := """feature-flipping-mgmt"""
+name := """redux-typescript-playground"""
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, BuildInfoPlugin, SbtWeb)

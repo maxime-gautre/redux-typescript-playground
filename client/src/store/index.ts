@@ -28,7 +28,7 @@ const store = createStore(reducers, enhancer);
 
 
 // todo type
-function* rootSaga(): any {
+function* rootSaga() {
     yield all([
         dashboardSaga(),
     ]);

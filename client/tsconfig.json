@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "jsx": "react",
-    "target": "es5",
+    "target": "es6",
     "strict": true,
     "noUnusedLocals": true,
+    "moduleResolution": "node",
     "sourceMap": true,
     "noImplicitAny": true,
     "skipLibCheck": true,
@@ -23,10 +24,7 @@
     "node_modules"
   ],
   "lib": [
-    "es5",
     "es6",
-    "es2015.promise",
-    "es2017",
     "dom"
   ]
 }
