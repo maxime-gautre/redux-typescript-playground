@@ -14,6 +14,7 @@ class FeatureFlipController(
   extends AbstractController(cc) {
 
   def list = Action.async { _ =>
+    println("called")
     featureFlipRepository.list.map { featuresFlip =>
       Ok(Json.toJson(featuresFlip))
     }

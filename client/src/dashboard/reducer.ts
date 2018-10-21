@@ -4,10 +4,18 @@ import * as featureFlipActions from './action';
 
 export interface DashBoardState {
     counter: number;
+    flips: FeatureFlip[];
+}
+
+export interface FeatureFlip {
+    id: number;
+    name: string;
+    activated: boolean;
 }
 
 const initialState: DashBoardState = {
-    counter: 0
+    counter: 0,
+    flips: [],
 };
 
 export type FeatureFlipAction = ActionType<typeof featureFlipActions>;
@@ -17,10 +25,13 @@ const reducer: Reducer<DashBoardState> = (state = initialState, action: FeatureF
         case getType(featureFlipActions.incrementCounter): {
             return { ...state, counter: state.counter + 1 };
         }
+        case 'FLIPS_FETCHED': {
+            return { ...state, flips: action.payload };
+        }
         default: {
             return state;
         }
     }
 };
 
-export { reducer as appReducer };
+export { reducer as dashboardReducer };

@@ -1,11 +1,14 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux';
-import { routerMiddleware, routerReducer } from 'react-router-redux';
+import { applyMiddleware, combineReducers, createStore, Reducer } from 'redux';
+import { routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createHashHistory from 'history/createHashHistory';
-import { appReducer, DashBoardState } from '../dashboard/reducer';
+import { dashboardReducer, DashBoardState } from '../dashboard/reducer';
+import dashboardSaga from '../dashboard/saga';
+import { all } from 'redux-saga/effects';
 
 export interface GlobalState {
+    router: Reducer<RouterState>;
     dashboardState: DashBoardState;
 }
 
@@ -15,10 +18,22 @@ const sagaMiddleware = createSagaMiddleware();
 
 const reducers = combineReducers({
     router: routerReducer,
-    appState: appReducer,
+    dashboardState: dashboardReducer,
 });
 const enhancer = composeWithDevTools(
     applyMiddleware(routeMiddleware),
     applyMiddleware(sagaMiddleware),
 );
-export const store = createStore(reducers, enhancer);
+const store = createStore(reducers, enhancer);
+
+
+// todo type
+function* rootSaga(): any {
+    yield all([
+        dashboardSaga(),
+    ]);
+}
+
+sagaMiddleware.run(rootSaga);
+
+export { store as store };
